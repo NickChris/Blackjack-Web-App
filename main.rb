@@ -5,6 +5,7 @@ set :sessions, true
 
 BLACKJACK_AMOUNT = 21
 DEALER_MUST_STAY = 17
+TOTAL_START_BANK = 500
 
 helpers do
 	def calculate_total(card)
@@ -49,13 +50,15 @@ helpers do
   def winner!(msg)
     @play_again = true
     @show_hit_or_stay_buttons = false
-    @success = "<strong>#{session[:player_name]} wins!</strong> #{msg}"
+    @success = "<strong>#{session[:player_name]} wins $#{session[:bet]}!</strong> #{msg}"
+    session[:player_bank] += session[:bet].to_i
   end
 
   def loser!(msg)
     @play_again = true
     @show_hit_or_stay_buttons = false
-    @error = "<strong>#{session[:player_name]} loses... </strong> #{msg}"
+    @error = "<strong>#{session[:player_name]} loses $#{session[:bet]}. </strong> #{msg}"
+    session[:player_bank] -= session[:bet].to_i
   end
 
   def tie!(msg)
@@ -71,7 +74,7 @@ end
 
 get '/' do
 	if session[:player_name]
-    redirect '/game'
+    redirect '/bet'
   else
     redirect '/new_player'
   end
@@ -87,7 +90,34 @@ post '/new_player' do
     halt erb(:new_player)
   end
   session[:player_name] = params[:player_name]
+  session[:player_bank] = TOTAL_START_BANK
+  redirect '/bet'
+end
+
+get '/bet' do
+  erb :bet
+end
+
+post '/bet' do
+  if params[:bet].empty? || params[:bet].to_i == 0
+    @error = "Bet is required."
+    halt erb(:bet)
+  end
+  if params[:bet].to_i > session[:player_bank]
+    @error = "Sorry, you do not have that much."
+    halt erb(:bet)
+  end
+  session[:bet] = params[:bet]
   redirect '/game'
+end
+
+get '/loan' do
+  erb :loan
+end
+
+post '/loan' do
+  session[:player_bank] += TOTAL_START_BANK
+  redirect '/bet'
 end
 
 get '/game' do

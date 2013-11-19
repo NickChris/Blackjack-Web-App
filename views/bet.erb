@@ -1,0 +1,8 @@
+<h4> How much would you like to bet? </h4>
+
+<form action='/bet' method='post'>
+	Player bank: $<%= session[:player_bank] %> <br/>
+	Bet: <input type='text' name='bet'/>
+	<br/>
+	<input type='submit' class='btn btn-primary'/>
+</form>
