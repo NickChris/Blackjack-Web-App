@@ -5,6 +5,11 @@ form#hit_form{
 
 form#stay_form{
 	float: left;
+	margin-right: 10px;
+}
+
+form#double_form{
+	float: left;
 }
 
 img.card_image{

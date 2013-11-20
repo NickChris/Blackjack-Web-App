@@ -2,6 +2,7 @@ $(document).ready(function(){
   player_hit();
   player_stay();
   dealer_hit();
+  double_down();
 });
 
 function player_hit() {
@@ -33,6 +34,18 @@ function dealer_hit() {
     $.ajax({
       type: 'POST',
       url: '/game/dealer/hit'
+    }).done(function(msg){
+      $("div#game").replaceWith(msg);
+    });
+    return false;
+  });
+}
+
+function double_down() {
+  $(document).on("click", "form#double_down input", function() {
+    $.ajax({
+      type: 'POST',
+      url: '/game/player/double_down'
     }).done(function(msg){
       $("div#game").replaceWith(msg);
     });

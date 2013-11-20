@@ -108,7 +108,7 @@ post '/bet' do
     @error = "Sorry, you do not have that much."
     halt erb(:bet)
   else
-    session[:bet] = params[:bet]
+    session[:bet] = params[:bet].to_i
     redirect '/game'
   end
 end
@@ -127,6 +127,16 @@ get '/game' do
 	session[:player_cards] << session[:deck].pop
   session[:dealer_cards] << session[:deck].pop 
 
+  player_total = calculate_total(session[:player_cards])
+  dealer_total = calculate_total(session[:dealer_cards])
+
+  if player_total == BLACKJACK_AMOUNT && dealer_total != BLACKJACK_AMOUNT
+    winner!("#{session[:player_name]} hit blackjack!")
+  elsif dealer_total == BLACKJACK_AMOUNT && player_total != BLACKJACK_AMOUNT
+    redirect '/game/dealer'
+  end
+
+
 	erb :game
 end
 
@@ -139,6 +149,20 @@ post '/game/player/hit' do
   elsif player_total > BLACKJACK_AMOUNT
     loser!("#{session[:player_name]} busted with #{player_total}.")
   end
+  erb :game, layout: false
+end
+
+post '/game/player/double_down' do
+  session[:player_cards] << session[:deck].pop
+  session[:bet] += session[:bet]
+
+  player_total = calculate_total(session[:player_cards])
+  if player_total == BLACKJACK_AMOUNT
+    winner!("#{session[:player_name]} hit blackjack!")
+  elsif player_total > BLACKJACK_AMOUNT
+    loser!("#{session[:player_name]} busted with #{player_total}.")
+  end
+  redirect '/game/dealer'
   erb :game, layout: false
 end
 

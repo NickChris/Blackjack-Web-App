@@ -53,14 +53,19 @@
 	<h5><%= session[:player_name] %> has <%= calculate_total(session[:player_cards]) %></h5>
 
 	<% if @show_hit_or_stay_buttons %>
-		
-	Would you like to:
-	</br>
+		Would you like to:
+		</br>
 		<form id='hit_form' action='/game/player/hit' method='post'>
 			<input type='submit' class='btn btn-success' value='Hit'/>
 		</form>
 		<form id='stay_form' action='/game/player/stay' method='post'>
 			<input type='submit' class='btn btn-warning' value='Stay'/>
 		</form>
+		
+		<% if session[:player_cards].length == 2 && session[:bet] * 2 < session[:player_bank] %>
+			<form id='double_down' action='/game/player/double_down' method='post'>
+				<input type='submit' class='btn btn-warning' value='Double Down'/>
+			</form>
+		<% end %>
 	<% end %>
 </div>
