@@ -187,7 +187,7 @@ get '/game/dealer' do
     @show_dealer_hit_button = true 
     @show_hit_or_stay_buttons = false 
   end
-  erb :game, layout: false
+  erb :game#, layout: false
 end
 
 post '/game/dealer/hit' do
