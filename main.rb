@@ -149,7 +149,7 @@ post '/game/player/hit' do
   elsif player_total > BLACKJACK_AMOUNT
     loser!("#{session[:player_name]} busted with #{player_total}.")
   end
-  erb :game, layout: false
+  erb :game#, layout: false
 end
 
 post '/game/player/double_down' do
