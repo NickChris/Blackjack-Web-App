@@ -163,7 +163,7 @@ post '/game/player/double_down' do
     loser!("#{session[:player_name]} busted with #{player_total}.")
   end
   redirect '/game/dealer'
-  erb :game, layout: false
+  erb :game#, layout: false
 end
 
 post '/game/player/stay' do
@@ -208,7 +208,7 @@ get '/game/compare' do
     tie!("Both #{session[:player_name]} and dealer stay at #{player_total}")
   end
 
-  erb :game, layout: false
+  erb :game#, layout: false
 end
 
 get '/game_over' do
