@@ -8,10 +8,11 @@ form#stay_form{
 	margin-right: 10px;
 }
 
-form#double_form{
+form#double_down{
 	float: left;
 }
 
 img.card_image{
 	margin: 0px 5px 5px 0px;
 }
+
