@@ -55,16 +55,16 @@
 	<% if @show_hit_or_stay_buttons %>
 		Would you like to:
 		</br>
-		<form id='hit_form' action='/game/player/hit' method='post'>
-			<button type='submit' class="btn btn-success"><i class="icon-ok icon-white"></i>  Hit</button>
-		</form>
-		<form id='stay_form' action='/game/player/stay' method='post'>
-			<button type='submit' class="btn btn-warning"><i class="icon-stop icon-white"></i>  Stay</button>
-		</form>
+		<form id="hit_form" action="/game/player/hit" method='post'>
+    	<input type="submit" class="btn btn-success" value="Hit" />
+  	</form>
+  	<form id="stay_form" action="/game/player/stay" method='post'>
+    	<input type="submit" class="btn btn-warning" value="Stay" />
+  	</form>
 		
 		<% if session[:player_cards].length == 2 && session[:bet] * 2 < session[:player_bank] %>
 			<form id='double_down' action='/game/player/double_down' method='post'>
-				<button type='submit' class="btn btn-warning"><i class="icon-download-alt icon-white"></i>  Double Down</button>
+				<input type='submit' class="btn btn-warning" value='Double Down' />
 			</form>
 		<% end %>
 	<% end %>
